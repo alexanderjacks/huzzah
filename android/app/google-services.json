@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "944124498004",
+    "firebase_url": "https://elements-meditation.firebaseio.com",
+    "project_id": "elements-meditation",
+    "storage_bucket": "elements-meditation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944124498004:android:1c29a541a4810cb3855dc1",
+        "android_client_info": {
+          "package_name": "huzzah.april"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944124498004-milcrouqfnulbv2kd4tosukprdddupig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyComVmXBfv_j1UqDPLi-3cXOJuCkDLYERc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944124498004-milcrouqfnulbv2kd4tosukprdddupig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
