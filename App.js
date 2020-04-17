@@ -7,7 +7,8 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 
 import firebase from '@react-native-firebase/app';
@@ -29,18 +30,56 @@ const firebaseCredentials = Platform.select({
   android: 'https://invertase.link/firebase-android',
 });
 
-type Props = {};
+type Props = {loading:false, dataSource:[], axiosData:null};
 
 export default class App extends Component<Props> {
+  goForAxios = () => {
+    this.setState({
+      loading: true,
+    })
+    axios.get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
+        console.log('Getting your data rdy...', response.data);
+        this.setState({
+          loading: false,
+          axiosData: response.data
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+  FlatListSeparator = () => {
+    return(
+      <View style={styles.flatListSeparator}
+      />
+    );
+  }
+  renderItem = (data) => {
+    return(
+      <TouchableOpacity style={styles.list}>
+        <Text style={styles.lightText}>{data.item.name}</Text>
+        <Text style={styles.lightText}>{data.item.email}</Text>
+        <Text style={styles.lightText}>{data.item.company.name}</Text>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to Gradient Coder</Text>
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+      <LinearGradient colors={['#ff7900', '#7c551a', '#003333']} style={styles.container}>
+        <Text style={styles.welcome}>Welcome to Top 100 Crypto</Text>
+        {/*
+          begin map()
+        */}
+        <View>
           <Text style={styles.buttonText}>
-            Ultramarines Need You
+            Items inc...
           </Text>
-        </LinearGradient>
+        </View>
+        {/*
+          end map()
+        */}
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
         {!firebase.apps.length && (
@@ -48,7 +87,7 @@ export default class App extends Component<Props> {
             {`\nYou currently have no Firebase apps registered, this most likely means you've not downloaded your project credentials. Visit the link below to learn more. \n\n ${firebaseCredentials}`}
           </Text>
         )}
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -70,12 +109,6 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
-  },
   buttonText: {
     fontSize: 18,
     fontFamily: 'Gill Sans',
@@ -84,4 +117,11 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     backgroundColor: 'transparent',
   },
+  flatListSeparator: {
+    height: 0.5,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  list: {},
+  lightText: {},
 });
