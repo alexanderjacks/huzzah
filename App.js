@@ -7,11 +7,10 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
 import axios from 'axios';
-import LinearGradient from 'react-native-linear-gradient';
-import AppView from './AppView';
-
+import { Platform, Text, View, TouchableOpacity } from 'react-native';
+import AppTemplate from './AppTemplate';
+import AppStyles from './AppStyles';
 import firebase from '@react-native-firebase/app';
 
 // TODO(you): import any additional firebase services that you require for your app, e.g for auth:
@@ -36,40 +35,54 @@ type Props = { loading:false, dataSource:[], goForAxios:null };
 export default class App extends Component<Props> {
   constructor(props){
     super(props);
-    this.state={
-      loading:false,
-      dataSource:[]
-    }
+    this.state = {
+      loading: false,
+      dataSource: [],
+      fromAxios: false,
+      axiosData: null
+    };
   }
-
   goForAxios = () => {
     this.setState({
       loading: true,
+      fromAxios: true,
     })
     axios.get("https://jsonplaceholder.typicode.com/users")
       .then(response => {
         console.log('Getting your data rdy...', response.data);
-        this.setState({
-          loading: false,
-          dataSource: response.data
-        })
+        setTimeout(() => {
+          this.setState({
+            loading: false,
+            dataSource: response.data
+          })
+        }, 3000)
       })
       .catch(error => {
         console.log(error);
       });
   }
+  FlatListSeparator = () => {
+    return (
+      <View style={{
+        height: 0.5,
+        width: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+      }}
+      />
+    );
+  }
   renderItem = (data) => {
     return(
-      <TouchableOpacity style={styles.list}>
-        <Text style={styles.lightText}>{data.item.name}</Text>
+      <TouchableOpacity style={AppStyles.list}>
+        <Text style={AppStyles.lightText}>{data.item.name}</Text>
+        <Text style={AppStyles.lightText}>{data.item.email}</Text>
       </TouchableOpacity>
     )
   }
-
   render() {
-    const { dataSource, FlatListSeparator, goForAxios } = this.state
+    const { dataSource, loading, axiosData, fromAxios } = this.state;
     return (
-      <AppView
+      <AppTemplate
         goForAxios={this.goForAxios}
         dataSource={dataSource}
         loading={loading}
@@ -78,46 +91,6 @@ export default class App extends Component<Props> {
         FlatListSeparator={this.FlatListSeparator}
         renderItem={this.renderItem}
       />
-
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  button: {
-    backgroundColor: '#003333',
-  },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: 'Menlo',
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-  },
-  list: {
-    fontSize: 18,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  lightText: {
-    color: 'snow',
-    fontSize: 14,
-    textAlign: 'center',
-    margin: 4,
-  },
-});
