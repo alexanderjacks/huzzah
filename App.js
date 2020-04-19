@@ -7,9 +7,10 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
+import AppView from './AppView';
 
 import firebase from '@react-native-firebase/app';
 
@@ -30,9 +31,17 @@ const firebaseCredentials = Platform.select({
   android: 'https://invertase.link/firebase-android',
 });
 
-type Props = {loading:false, dataSource:[], axiosData:null};
+type Props = { loading:false, dataSource:[], goForAxios:null };
 
 export default class App extends Component<Props> {
+  constructor(props){
+    super(props);
+    this.state={
+      loading:false,
+      dataSource:[]
+    }
+  }
+
   goForAxios = () => {
     this.setState({
       loading: true,
@@ -42,52 +51,34 @@ export default class App extends Component<Props> {
         console.log('Getting your data rdy...', response.data);
         this.setState({
           loading: false,
-          axiosData: response.data
+          dataSource: response.data
         })
       })
       .catch(error => {
         console.log(error);
       });
   }
-  FlatListSeparator = () => {
-    return(
-      <View style={styles.flatListSeparator}
-      />
-    );
-  }
   renderItem = (data) => {
     return(
       <TouchableOpacity style={styles.list}>
         <Text style={styles.lightText}>{data.item.name}</Text>
-        <Text style={styles.lightText}>{data.item.email}</Text>
-        <Text style={styles.lightText}>{data.item.company.name}</Text>
       </TouchableOpacity>
     )
   }
 
   render() {
+    const { dataSource, FlatListSeparator, goForAxios } = this.state
     return (
-      <LinearGradient colors={['#ff7900', '#7c551a', '#003333']} style={styles.container}>
-        <Text style={styles.welcome}>Welcome to Top 100 Crypto</Text>
-        {/*
-          begin map()
-        */}
-        <View>
-          <Text style={styles.buttonText}>
-            Items inc...
-          </Text>
-        </View>
-        {/*
-          end map()
-        */}
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-        {!firebase.apps.length && (
-          <Text style={styles.instructions}>
-            {`\nYou currently have no Firebase apps registered, this most likely means you've not downloaded your project credentials. Visit the link below to learn more. \n\n ${firebaseCredentials}`}
-          </Text>
-        )}
-      </LinearGradient>
+      <AppView
+        goForAxios={this.goForAxios}
+        dataSource={dataSource}
+        loading={loading}
+        fromAxios={fromAxios}
+        axiosData={axiosData}
+        FlatListSeparator={this.FlatListSeparator}
+        renderItem={this.renderItem}
+      />
+
     );
   }
 }
@@ -109,19 +100,24 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  button: {
+    backgroundColor: '#003333',
+  },
   buttonText: {
     fontSize: 18,
-    fontFamily: 'Gill Sans',
+    fontFamily: 'Menlo',
     textAlign: 'center',
     margin: 10,
     color: '#ffffff',
-    backgroundColor: 'transparent',
   },
-  flatListSeparator: {
-    height: 0.5,
-    width: '100%',
+  list: {
+    fontSize: 18,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  list: {},
-  lightText: {},
+  lightText: {
+    color: 'snow',
+    fontSize: 14,
+    textAlign: 'center',
+    margin: 4,
+  },
 });
