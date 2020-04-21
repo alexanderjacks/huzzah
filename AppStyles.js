@@ -19,6 +19,11 @@ const AppStyles = {
     margin: 10,
     color: '#ffffff',
   },
+  bigList: {
+    minWidth: '85vw',
+    display: 'flex',
+    flexFlow: 'row wrap',
+  },
   flatListSeparator: {
     height: 0.5,
     width: '100%',

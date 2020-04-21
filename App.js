@@ -47,7 +47,7 @@ export default class App extends Component<Props> {
       loading: true,
       fromAxios: true,
     })
-    axios.get("https://jsonplaceholder.typicode.com/users")
+    axios.get('https://api.nomics.com/v1/currencies/ticker?key=643698f1108812b938fe8a2d81983059&interval=1d,30d&quote-currency=USD')
       .then(response => {
         console.log('Getting your data rdy...', response.data);
         setTimeout(() => {
@@ -65,8 +65,9 @@ export default class App extends Component<Props> {
     return (
       <View style={{
         height: 0.5,
-        width: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        margin: 0.3,
+        padding: 0.3,
+        backgroundColor: 'rgba(0,0,0,0.3)',
       }}
       />
     );
