@@ -4,12 +4,13 @@ const AppStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textStyle:{
+  welcome: {
    fontSize: 18,
    textAlign: 'center',
-   paddingTop: 32
-   },
+   marginTop: 32,
+  },
   button: {
+    marginTop: 12,
     backgroundColor: '#003333',
   },
   buttonText: {
@@ -20,24 +21,20 @@ const AppStyles = {
     color: '#ffffff',
   },
   bigList: {
-    minWidth: '85vw',
-    display: 'flex',
-    flexFlow: 'row wrap',
-  },
-  flatListSeparator: {
-    height: 0.5,
     width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  bigListItem: {
+    minWidth: 50,
+    maxWidth: 80,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  list: {
-    fontSize: 18,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  lightText: {
-    color: 'snow',
+  listText: {
+    color: 'whitesmoke',
     fontSize: 14,
     textAlign: 'center',
-    margin: 4,
+    margin: 2,
   },
   instructions: {
     color: 'whitesmoke',

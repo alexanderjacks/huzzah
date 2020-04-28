@@ -55,28 +55,17 @@ export default class App extends Component<Props> {
             loading: false,
             dataSource: response.data
           })
-        }, 3000)
+        }, 1500)
       })
       .catch(error => {
         console.log(error);
       });
   }
-  FlatListSeparator = () => {
-    return (
-      <View style={{
-        height: 0.5,
-        margin: 0.3,
-        padding: 0.3,
-        backgroundColor: 'rgba(0,0,0,0.3)',
-      }}
-      />
-    );
-  }
   renderItem = (data) => {
     return(
-      <TouchableOpacity style={AppStyles.list}>
-        <Text style={AppStyles.lightText}>{data.item.name}</Text>
-        <Text style={AppStyles.lightText}>{data.item.email}</Text>
+      <TouchableOpacity style={AppStyles.bigListItem}>
+        <Text style={AppStyles.listText}>{data.item.name}</Text>
+        <Text style={AppStyles.listText}>{data.item.email}</Text>
       </TouchableOpacity>
     )
   }
@@ -89,7 +78,6 @@ export default class App extends Component<Props> {
         loading={loading}
         fromAxios={fromAxios}
         axiosData={axiosData}
-        FlatListSeparator={this.FlatListSeparator}
         renderItem={this.renderItem}
       />
     );
